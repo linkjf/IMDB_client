@@ -4,7 +4,7 @@ This app helps you get information about diferent kind of media from series to m
 
 ## HOW TO BUILD AND RUN
 
-Clone, import and add <b>Android v7 CompPat library</b>
+Clone, import and add <b>Android v7 ComPat library</b>
 
 ## License
 
