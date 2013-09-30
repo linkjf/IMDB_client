@@ -44,6 +44,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -59,6 +60,73 @@ import com.j_o.android.imdb_client.util.AppConstans;
 import com.j_o.android.imdb_client.util.ConsumerWebService;
 
 public class MainActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		mediaList = new ArrayList<Media>();
+		mediaGrid = (GridView) findViewById(R.id.media_grid_view);
+		editTxMediaSearch = (EditText) findViewById(R.id.edit_search_media);
+
+		// Input filter that not allow special characters.
+		InputFilter filter = new InputFilter() {
+			@Override
+			public CharSequence filter(CharSequence source, int start, int end,
+					Spanned dest, int dstart, int dend) {
+
+				if (source instanceof SpannableStringBuilder) {
+					SpannableStringBuilder sourceAsSpannableBuilder = (SpannableStringBuilder) source;
+					for (int i = end - 1; i >= start; i--) {
+						char currentChar = source.charAt(i);
+						if (!Character.isLetterOrDigit(currentChar)
+								&& !Character.isSpaceChar(currentChar)) {
+							sourceAsSpannableBuilder.delete(i, i + 1);
+						}
+					}
+					return source;
+				} else {
+					StringBuilder filteredStringBuilder = new StringBuilder();
+					for (int i = 0; i < end; i++) {
+						char currentChar = source.charAt(i);
+						if (Character.isLetterOrDigit(currentChar)
+								|| Character.isSpaceChar(currentChar)) {
+							filteredStringBuilder.append(currentChar);
+						}
+					}
+					return filteredStringBuilder.toString();
+				}
+			}
+		};
+		editTxMediaSearch.setFilters(new InputFilter[] { filter });
+
+		editTxMediaSearch
+				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+							new AskForMediaAsyncTaks()
+									.execute(editTxMediaSearch.getText()
+											.toString());
+							InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+							imm.hideSoftInputFromWindow(
+									editTxMediaSearch.getWindowToken(), 0);
+							return true;
+						}
+						return false;
+					}
+
+				});
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
 
 	/**
 	 * Asynctask that call web service for media data.
@@ -122,6 +190,8 @@ public class MainActivity extends Activity {
 			mProgressDialog.dismiss();
 			if (mediaGrid.getAdapter() != null) {
 				((BaseAdapter) mediaGrid.getAdapter()).notifyDataSetChanged();
+				mediaGrid.smoothScrollToPosition(0);
+
 				if (mediaList.isEmpty())
 					Toast.makeText(getApplicationContext(),
 							R.string.lab_no_media_found, Toast.LENGTH_SHORT)
@@ -176,19 +246,35 @@ public class MainActivity extends Activity {
 									AppConstans.URL_BASE_WEB_SERVICE, "GET",
 									nameValuePairs);
 
-					responseMedia.setActors(mediaObject.getString("Actors"));
-					responseMedia
-							.setDirector(mediaObject.getString("Director"));
-					responseMedia
-							.setDuraction(mediaObject.getString("Runtime"));
-					responseMedia.setPlot(mediaObject.getString("Plot"));
+					if (!mediaObject.isNull("Actors"))
+						responseMedia
+								.setActors(mediaObject.getString("Actors"));
 
-					URL url = new URL(mediaObject.getString("Poster"));
-					URLConnection connection = url.openConnection();
-					connection.setUseCaches(true);
-					Object response = connection.getContent();
-					InputStream ip = (InputStream) response;
-					mediaRequested.setPoster(BitmapFactory.decodeStream(ip));
+					if (!mediaObject.isNull("Director"))
+						responseMedia.setDirector(mediaObject
+								.getString("Director"));
+
+					if (!mediaObject.isNull("Runtime"))
+						responseMedia.setDuraction(mediaObject
+								.getString("Runtime"));
+
+					if (!mediaObject.isNull("Plot"))
+						responseMedia.setPlot(mediaObject.getString("Plot"));
+
+					try {
+
+						URL url = new URL(mediaObject.getString("Poster"));
+						URLConnection connection = url.openConnection();
+						connection.setUseCaches(true);
+						Object response = connection.getContent();
+						InputStream ip = (InputStream) response;
+						mediaRequested
+								.setPoster(BitmapFactory.decodeStream(ip));
+					} catch (Exception e) {
+						mediaRequested
+								.setPoster(BitmapFactory.decodeStream((getResources()
+										.openRawResource(R.drawable.no_image))));
+					}
 
 				} catch (Exception e) {
 					Log.e("Error", e.getMessage());
@@ -300,67 +386,4 @@ public class MainActivity extends Activity {
 
 	private ArrayList<Media> mediaList;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		mediaList = new ArrayList<Media>();
-		mediaGrid = (GridView) findViewById(R.id.media_grid_view);
-		editTxMediaSearch = (EditText) findViewById(R.id.edit_search_media);
-
-		// Input filter that not allow special characters.
-		InputFilter filter = new InputFilter() {
-			@Override
-			public CharSequence filter(CharSequence source, int start, int end,
-					Spanned dest, int dstart, int dend) {
-
-				if (source instanceof SpannableStringBuilder) {
-					SpannableStringBuilder sourceAsSpannableBuilder = (SpannableStringBuilder) source;
-					for (int i = end - 1; i >= start; i--) {
-						char currentChar = source.charAt(i);
-						if (!Character.isLetterOrDigit(currentChar)
-								&& !Character.isSpaceChar(currentChar)) {
-							sourceAsSpannableBuilder.delete(i, i + 1);
-						}
-					}
-					return source;
-				} else {
-					StringBuilder filteredStringBuilder = new StringBuilder();
-					for (int i = 0; i < end; i++) {
-						char currentChar = source.charAt(i);
-						if (Character.isLetterOrDigit(currentChar)
-								|| Character.isSpaceChar(currentChar)) {
-							filteredStringBuilder.append(currentChar);
-						}
-					}
-					return filteredStringBuilder.toString();
-				}
-			}
-		};
-		editTxMediaSearch.setFilters(new InputFilter[] { filter });
-
-		editTxMediaSearch
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView v, int actionId,
-							KeyEvent event) {
-						if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-							new AskForMediaAsyncTaks()
-									.execute(editTxMediaSearch.getText()
-											.toString());
-							return true;
-						}
-						return false;
-					}
-
-				});
-
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
 }
