@@ -30,7 +30,8 @@ public class ConsumerWebService {
 	 * This method make a httprequest to an url and returns a JSONArray object
 	 * base on the server response.
 	 */
-	public static JSONArray makeHttpRequest(String url, String method, List<NameValuePair> params) throws IOException {
+	public static JSONArray makeHttpRequest(String url, String method,
+			List<NameValuePair> params) throws IOException {
 
 		AndroidHttpClient httpClient = null;
 		JSONArray json = null;
@@ -38,7 +39,8 @@ public class ConsumerWebService {
 		try {
 			// Building the request
 			httpClient = AndroidHttpClient.newInstance("android");
-			HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+			HttpConnectionParams.setConnectionTimeout(httpClient.getParams(),
+					3000);
 
 			if (method.equals("POST")) {
 				// request method is POST
@@ -50,7 +52,8 @@ public class ConsumerWebService {
 				// getting the response
 				HttpResponse httpResponse = httpClient.execute(postRequest);
 
-				final int statusCode = httpResponse.getStatusLine().getStatusCode();
+				final int statusCode = httpResponse.getStatusLine()
+						.getStatusCode();
 
 				// check the response if it's ok
 				if (statusCode != HttpStatus.SC_OK) {
@@ -66,8 +69,7 @@ public class ConsumerWebService {
 
 				json = new JSONArray(response);
 
-			}
-			else if (method.equals("GET")) {
+			} else if (method.equals("GET")) {
 				// request method is GET
 				HttpGet getRequest = new HttpGet();
 				String paramString = URLEncodedUtils.format(params, HTTP.UTF_8);
@@ -79,7 +81,8 @@ public class ConsumerWebService {
 
 				// getting the response
 				HttpResponse httpResponse = httpClient.execute(getRequest);
-				final int statusCode = httpResponse.getStatusLine().getStatusCode();
+				final int statusCode = httpResponse.getStatusLine()
+						.getStatusCode();
 
 				// check the response if it's ok
 				if (statusCode != HttpStatus.SC_OK) {
@@ -96,21 +99,18 @@ public class ConsumerWebService {
 			}
 
 			return json;
-		}
-		catch (URISyntaxException e) {
+		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			throw new IOException(e.getMessage());
-		}
-		catch (UnsupportedEncodingException e) {
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			throw new IOException(e.getMessage());
-		}
-		catch (JSONException e) {
+		} catch (JSONException e) {
 			e.printStackTrace();
 			throw new IOException(e.getMessage());
-		}
-		finally {
-			if (httpClient != null) httpClient.close();
+		} finally {
+			if (httpClient != null)
+				httpClient.close();
 
 		}
 	}
@@ -119,7 +119,8 @@ public class ConsumerWebService {
 	 * This method make a httprequest to an url and returns a JSONObject object
 	 * base on the server response.
 	 */
-	public static JSONObject makeHttpRequestJSONObject(String url, String method, List<NameValuePair> params) throws IOException {
+	public static JSONObject makeHttpRequestJSONObject(String url,
+			String method, List<NameValuePair> params) throws IOException {
 
 		AndroidHttpClient httpClient = null;
 		JSONObject json = null;
@@ -127,7 +128,8 @@ public class ConsumerWebService {
 		try {
 			// Building the request
 			httpClient = AndroidHttpClient.newInstance("android");
-			HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+			HttpConnectionParams.setConnectionTimeout(httpClient.getParams(),
+					3000);
 
 			if (method.equals("POST")) {
 				// request method is POST
@@ -135,12 +137,12 @@ public class ConsumerWebService {
 				URI uri = new URI(url);
 				postRequest.setURI(uri);
 				postRequest.setEntity(new UrlEncodedFormEntity(params));
-				Log.d("post", postRequest.getRequestLine().toString());
 
 				// getting the response
 				HttpResponse httpResponse = httpClient.execute(postRequest);
 
-				final int statusCode = httpResponse.getStatusLine().getStatusCode();
+				final int statusCode = httpResponse.getStatusLine()
+						.getStatusCode();
 
 				// check the response if it's ok
 				if (statusCode != HttpStatus.SC_OK) {
@@ -156,8 +158,7 @@ public class ConsumerWebService {
 
 				json = new JSONObject(response);
 
-			}
-			else if (method.equals("GET")) {
+			} else if (method.equals("GET")) {
 				// request method is GET
 				HttpGet getRequest = new HttpGet();
 				String paramString = URLEncodedUtils.format(params, HTTP.UTF_8);
@@ -169,7 +170,8 @@ public class ConsumerWebService {
 
 				// getting the response
 				HttpResponse httpResponse = httpClient.execute(getRequest);
-				final int statusCode = httpResponse.getStatusLine().getStatusCode();
+				final int statusCode = httpResponse.getStatusLine()
+						.getStatusCode();
 
 				// check the response if it's ok
 				if (statusCode != HttpStatus.SC_OK) {
@@ -186,21 +188,18 @@ public class ConsumerWebService {
 			}
 
 			return json;
-		}
-		catch (URISyntaxException e) {
+		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			throw new IOException(e.getMessage());
-		}
-		catch (UnsupportedEncodingException e) {
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			throw new IOException(e.getMessage());
-		}
-		catch (JSONException e) {
+		} catch (JSONException e) {
 			e.printStackTrace();
 			throw new IOException(e.getMessage());
-		}
-		finally {
-			if (httpClient != null) httpClient.close();
+		} finally {
+			if (httpClient != null)
+				httpClient.close();
 
 		}
 	}

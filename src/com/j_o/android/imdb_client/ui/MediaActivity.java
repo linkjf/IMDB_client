@@ -16,26 +16,17 @@
 
 package com.j_o.android.imdb_client.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
-
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.aranda.android.imdb_client.R;
+import com.j_o.android.imdb_client.model.Media;
 import com.j_o.android.imdb_client.util.AppConstans;
-import com.j_o.android.imdb_client.util.ConsumerWebService;
 
 public class MediaActivity extends ActionBarActivity {
 
@@ -47,7 +38,6 @@ public class MediaActivity extends ActionBarActivity {
 	private TextView txtMediaPlot;
 
 	private ActionBar actionBar;
-	private JSONObject jsonObject;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,17 +52,21 @@ public class MediaActivity extends ActionBarActivity {
 		txtMediaDuration = (TextView) findViewById(R.id.txt_duration_value);
 		txtMediaPlot = (TextView) findViewById(R.id.txt_plot_value);
 
-		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		this.getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 		if (getIntent().getExtras() != null) {
 			try {
-
-				jsonObject = new JSONObject(getIntent().getExtras().getString(AppConstans.JSON_DATA_MAP));
-				setTitle(jsonObject.getString("title"));
-
-				new AskForMediaAsyncTaks().execute(jsonObject.getString("id"));
-			}
-			catch (Exception e) {
+				Media media = (Media) getIntent().getParcelableExtra(
+						AppConstans.MEDIA);
+				setTitle(media.getTitle());
+				txtMediaName.setText(media.getTitle());
+				txtMediaGenre.setText(media.getGenre());
+				txtMediaActors.setText(media.getActors());
+				txtMediaDirector.setText(media.getDirector());
+				txtMediaDuration.setText(media.getDuraction());
+				txtMediaPlot.setText(media.getPlot());
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -94,52 +88,6 @@ public class MediaActivity extends ActionBarActivity {
 			break;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	private class AskForMediaAsyncTaks extends AsyncTask<String, Void, Boolean> {
-
-		private JSONObject jsonObject;
-
-		@Override
-		protected Boolean doInBackground(String... params) {
-			Log.d("lol", "lol");
-			// Set rquest Data
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-			nameValuePairs.add(new BasicNameValuePair("i", params[0]));
-			try {
-				this.jsonObject = ConsumerWebService.makeHttpRequestJSONObject(AppConstans.URL_BASE_WEB_SERVICE, "GET", nameValuePairs);
-
-			}
-			catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			return false;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean isError) {
-			super.onPostExecute(isError);
-
-			if (this.jsonObject != null) {
-				try {
-					txtMediaName.setText(jsonObject.getString("Title"));
-					txtMediaGenre.setText(jsonObject.getString("Genre"));
-					txtMediaActors.setText(jsonObject.getString("Actors"));
-					txtMediaDirector.setText(jsonObject.getString("Director"));
-					txtMediaDuration.setText(jsonObject.getString("Runtime"));
-					txtMediaPlot.setText(jsonObject.getString("Plot"));
-
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-
-		}
-
 	}
 
 }
