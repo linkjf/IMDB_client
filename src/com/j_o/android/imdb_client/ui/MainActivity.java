@@ -72,6 +72,8 @@ public class MainActivity extends Activity {
 		mediaArray = new JSONArray();
 		mediaGrid = (GridView) findViewById(R.id.media_grid_view);
 		editTxMediaSearch = (EditText) findViewById(R.id.edit_search_media);
+
+		// Input filter that not allow special characters.
 		InputFilter filter = new InputFilter() {
 			@Override
 			public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -121,6 +123,9 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	/**
+	 * Adapter for Media card data
+	 */
 	class MediaAdapter extends BaseAdapter implements OnItemClickListener {
 
 		private LayoutInflater mInflater;
@@ -155,7 +160,6 @@ public class MainActivity extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			Log.d("get view", "view");
 
 			ViewHolder holder;
 			if (convertView == null) {
@@ -196,11 +200,17 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Class representing an adapter item.
+	 */
 	static class ViewHolder {
 		ImageView mediaImage;
 		TextView mediaTitle;
 	}
 
+	/**
+	 * Asynctask that call web service for media data.
+	 */
 	private class AskForMediaAsyncTaks extends AsyncTask<String, Void, Boolean> {
 
 		private ProgressDialog mProgressDialog;
@@ -218,7 +228,7 @@ public class MainActivity extends Activity {
 
 		@Override
 		protected Boolean doInBackground(String... params) {
-			Log.d("lol", "lol");
+
 			// Set rquest Data
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			nameValuePairs.add(new BasicNameValuePair("json", "" + 1));
@@ -227,6 +237,7 @@ public class MainActivity extends Activity {
 			try {
 				JSONObject responseOjbect = ConsumerWebService.makeHttpRequestJSONObject(AppConstans.URL_BASE_WEB_SERVICE_IMDB, "GET", nameValuePairs);
 
+				// Check server response
 				if (!responseOjbect.isNull("title_substring"))
 
 					mediaArray = responseOjbect.getJSONArray("title_substring");
@@ -270,23 +281,26 @@ public class MainActivity extends Activity {
 
 	}
 
+	/**
+	 * Asynctask that call web service for poster image.
+	 */
 	private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-		ImageView bmImage;
+		ImageView mediaImageView;
 
 		public DownloadImageTask(ImageView bmImage) {
-			this.bmImage = bmImage;
+			this.mediaImageView = bmImage;
 		}
 
 		@Override
 		protected void onPreExecute() {
 
 			super.onPreExecute();
-			bmImage.setImageBitmap(null);
+			mediaImageView.setImageBitmap(null);
 		}
 
 		protected Bitmap doInBackground(String... movieID) {
 			String id = movieID[0];
-			Bitmap mIcon11 = null;
+			Bitmap mediaPosterData = null;
 			try {
 
 				try {
@@ -298,7 +312,7 @@ public class MainActivity extends Activity {
 					JSONObject mediaObject = ConsumerWebService.makeHttpRequestJSONObject(AppConstans.URL_BASE_WEB_SERVICE, "GET", nameValuePairs);
 
 					InputStream in = new java.net.URL(mediaObject.getString("Poster")).openStream();
-					mIcon11 = BitmapFactory.decodeStream(in);
+					mediaPosterData = BitmapFactory.decodeStream(in);
 				}
 				catch (Exception e) {
 					Log.e("Error", e.getMessage());
@@ -308,14 +322,14 @@ public class MainActivity extends Activity {
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-			return mIcon11;
+			return mediaPosterData;
 		}
 
 		protected void onPostExecute(Bitmap result) {
-			bmImage.setImageBitmap(result);
+			mediaImageView.setImageBitmap(result);
 			Animation fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_animation_layout);
 			// Now Set your animation
-			bmImage.startAnimation(fadeInAnimation);
+			mediaImageView.startAnimation(fadeInAnimation);
 		}
 
 	}

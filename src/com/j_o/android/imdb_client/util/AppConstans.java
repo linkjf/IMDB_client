@@ -20,7 +20,9 @@ public class AppConstans {
 
 	public final static String JSON_DATA_MAP = "json_data_map";
 	public static final String DATE_TIME_FORMAT = "dd-MM-yyyy";
+	//Non official IMDB web service.
 	public static final String URL_BASE_WEB_SERVICE = "http://www.omdbapi.com/";
+	//Official IMDB web service.
 	public static final String URL_BASE_WEB_SERVICE_IMDB = "http://www.imdb.com/xml/find";
 
 }

@@ -26,6 +26,10 @@ import android.util.Log;
 
 public class ConsumerWebService {
 
+	/**
+	 * This method make a httprequest to an url and returns a JSONArray object
+	 * base on the server response.
+	 */
 	public static JSONArray makeHttpRequest(String url, String method, List<NameValuePair> params) throws IOException {
 
 		AndroidHttpClient httpClient = null;
@@ -111,6 +115,10 @@ public class ConsumerWebService {
 		}
 	}
 
+	/**
+	 * This method make a httprequest to an url and returns a JSONObject object
+	 * base on the server response.
+	 */
 	public static JSONObject makeHttpRequestJSONObject(String url, String method, List<NameValuePair> params) throws IOException {
 
 		AndroidHttpClient httpClient = null;
