@@ -12,12 +12,14 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
--->
-<resources>
+  -->
+ <set xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!--
-         Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw600dp devices (e.g. 7" tablets) here.
-    -->
+    <alpha
+        android:duration="2000"
+        android:fromAlpha="0.0"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:repeatCount="0"
+        android:toAlpha="1.0" />
 
-</resources>
+</set>

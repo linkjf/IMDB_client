@@ -1,8 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2013 Jose Ortega.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <resources>
 
-    <string name="app_name">IMDB Client</string>
+    <string name="app_name">Movie Genius!</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="lab_media_name">Nombre:</string>
+    <string name="lab_media_genre">Generos:</string>
+    <string name="lab_media_actors">Actores:</string>
+    <string name="lab_media_director">Director:</string>
+    <string name="lab_media_duration">Duracion:</string>
+    <string name="lab_media_plot">Historia / Trama</string>
+    <string name="desc">Actores:</string>
+    <string name="lab_media_hint">Buscar Pelicula</string>
+    <string name="lab_no_media_found">Lo sentimos! No existen resultados para tu busqueda.</string>
+    <string name="lab_loking_for_media">Buscando, por favor espere.</string>
 
 </resources>

@@ -12,7 +12,7 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-  -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -32,10 +32,9 @@
         android:ems="10"
         android:imeOptions="actionSearch"
         android:inputType="text"
-        android:padding="10dp" >
-
-        <requestFocus />
-    </EditText>
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
     <GridView
         android:id="@+id/media_grid_view"
@@ -43,7 +42,7 @@
         android:layout_height="fill_parent"
         android:gravity="center"
         android:horizontalSpacing="10dp"
-        android:numColumns="2"
+        android:numColumns="1"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" >
     </GridView>

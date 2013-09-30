@@ -1,8 +1,168 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2013 Jose Ortega.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
+    android:background="@color/ligth_gray"
+    android:orientation="vertical"
+    android:padding="15dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/media_card"
+        android:padding="5dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" >
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/lab_media_name"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txt_name_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/txt_name"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/txt_name"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt_genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/txt_name"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/lab_media_genre"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txt_genre_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/txt_genre"
+            android:layout_below="@id/txt_name_value"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/txt_genre"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt_actors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/txt_genre"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/lab_media_actors"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txt_actors_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/txt_actors"
+            android:layout_below="@id/txt_genre_value"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/txt_actors"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt_director"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/txt_actors"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/lab_media_director"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txt_director_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/txt_director"
+            android:layout_below="@id/txt_actors_value"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/txt_director"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/txt_director"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/lab_media_duration"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txt_duration_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/txt_duration"
+            android:layout_below="@id/txt_director_value"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/txt_duration"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/media_card"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/txt_plot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/lab_media_plot"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_plot_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/txt_plot"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="14sp" />
+    </RelativeLayout>
 
 </LinearLayout>

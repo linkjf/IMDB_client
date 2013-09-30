@@ -15,9 +15,10 @@
 -->
 <resources>
 
-    <!--
-         Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw600dp devices (e.g. 7" tablets) here.
-    -->
+    <color name="green">#00754b</color>
+    <color name="pressed_style">#80017247</color>
+    <color name="dark_gray">#444444</color>
+    <color name="ligth_gray">#ffe5e5e5</color>
+    <color name="gray">#666666</color>
 
 </resources>
